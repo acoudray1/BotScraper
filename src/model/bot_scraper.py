@@ -32,19 +32,36 @@ class BotScraper:
 
     ### this function navigates to google and make a search
     ### @param search_query: str
-    def search_google(self, search_query):
-        self.driver.get("https://www.google.com")
+    ### @param is_url: bool
+    def search_google(self, search_query, is_url):
+        if is_url:
+            self.driver.get(search_query)
+        else:
+            self.driver.get("https://www.google.com")
 
-        # TODO handle the addition of 0 on the month if under 10th
-        cookie_name = "YES+shp.gws-"+str(datetime.now().year)+"0"+str(datetime.now().month)+str(datetime.now().day)+"-0-RC2.en+FX+374"
+            # TODO handle the addition of 0 on the month if under 10th
+            cookie_name = "YES+shp.gws-"+str(datetime.now().year)+"0"+str(datetime.now().month)+str(datetime.now().day)+"-0-RC2.en+FX+374"
 
-        self.driver.delete_cookie("CONSENT")
-        self.driver.add_cookie({'name': "CONSENT", 'value': cookie_name})
-        self.driver.refresh()
+            self.driver.delete_cookie("CONSENT")
+            self.driver.add_cookie({'name': "CONSENT", 'value': cookie_name})
+            self.driver.refresh()
 
-        s_q = self.driver.find_element(By.NAME, 'q')
-        s_q.send_keys(search_query)
-        s_q.send_keys(Keys.RETURN)
+            s_q = self.driver.find_element(By.NAME, 'q')
+            s_q.send_keys(search_query)
+            s_q.send_keys(Keys.RETURN)
+
+    ### get the number of results and divide it by 10
+    ### @return nb_pages: int
+    def google_search_number_of_pages(self):
+        el = self.driver.find_element(By.ID, 'result-stats').text
+        
+        number = ''
+        for c in el.split():
+            if c.isdigit():
+                number += str(c)
+        
+        nb_pages = (int(number) / 10) + 1
+        return int(nb_pages)
 
     ### function to scrape google's search page
     ### @return page_info: []
@@ -74,9 +91,18 @@ class BotScraper:
     ### click button on page
     ### @param by: selenium.webdriver.common.by (the type of search)
     ### @param text: str (the thing to find)
-    def click_button(self, by, text):
-        button = self.driver.find_element(by, text)
-        button.click()
+    def click_button(self, by, text1, text2):
+        try:
+            button = self.driver.find_element(by, text1)
+            button.click()
+        except Exception as e1:
+            print(e1)
+            try:
+                button = self.driver.find_element(by, text2)
+                button.click()
+            except Exception as e2:
+                print(e2)
+                self.driver.quit()
 
     def __del__(self):
         self.driver.quit()

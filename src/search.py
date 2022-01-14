@@ -11,15 +11,38 @@ bot = BotScraper(PATH)
 
 bot.auth_to_linkedin(Consts.linkedin_username, Consts.linkedin_password)
 
-bot.search_google(Consts.search_query)
+bot.search_google(Consts.search_query, False)
 
-nb_pages = 5
+time.sleep(30)
+
+nb_pages = bot.google_search_number_of_pages()
 info_all = []
 info_all.extend(bot.google_scrape())
 
-for i in range(0, nb_pages - 1):
-    bot.click_button(By.LINK_TEXT, 'Suivant')
-    info_all.extend(bot.google_scrape())
+page_scrapped = 0
+last_url_scrapped = ''
+
+while page_scrapped < nb_pages - 1:
+    try:
+        bot.click_button(By.LINK_TEXT, 'Suivant', 'Next')
+        info_all.extend(bot.google_scrape())
+        page_scrapped += 1
+        last_url_scrapped = bot.driver.current_url
+    except Exception as e:
+        print(e)
+        print(page_scrapped)
+        print(last_url_scrapped)
+        
+        del bot
+        
+        bot = BotScraper(PATH)
+        bot.auth_to_linkedin(Consts.linkedin_username, Consts.linkedin_password)
+        bot.search_google(last_url_scrapped, True)
+
+        df = pd.DataFrame(info_all)
+        df.to_csv('../out/' + 'tmp-' + str(page_scrapped) + Consts.file_name)
+        time.sleep(30)
+
 
 df = pd.DataFrame(info_all)
 df.to_csv('../out/' + Consts.file_name)
