@@ -111,7 +111,7 @@ class BotScraper:
             information = Info(header, link)
             for i in range(len(text)):
                 if not(text[i].text.startswith('Tradui')):
-                    information.add_new_attribute("info_%s" %i, text[i].text)
+                    information.add_new_attribute("info_%s" %i, text[i].text, True)
             
             page_info.append(information.to_dict())
 
