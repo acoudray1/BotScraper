@@ -1,8 +1,8 @@
 from datetime import datetime
 
 # search
-keyword_1 = 'Epic Games'
-keyword_2 = 'Engineers'
+keyword_1 = 'Wargaming'
+keyword_2 = 'Data'
 
 search_query = 'site:linkedin.com/in/ AND "' + keyword_1 + '" AND "' + keyword_2 + '"'
 

@@ -18,7 +18,7 @@ time.sleep(30)
 
 nb_pages = bot.google_search_number_of_pages()
 info_all = []
-info_all.extend(bot.google_scrape())
+info_all.extend(bot.google_deep_scrape())
 
 page_scrapped = 0
 last_url_scrapped = ''
@@ -26,7 +26,7 @@ last_url_scrapped = ''
 while page_scrapped < nb_pages - 1:
     try:
         bot.click_button(By.LINK_TEXT, 'Suivant', 'Next')
-        info_all.extend(bot.google_scrape())
+        info_all.extend(bot.google_deep_scrape())
         page_scrapped += 1
         last_url_scrapped = bot.driver.current_url
     except Exception as e:
@@ -43,7 +43,6 @@ while page_scrapped < nb_pages - 1:
         df = pd.DataFrame(info_all)
         df.to_csv('../out/' + 'tmp-' + str(page_scrapped) + Consts.file_name)
         time.sleep(30)
-
 
 df = pd.DataFrame(info_all)
 df.to_csv('../out/' + Consts.file_name)

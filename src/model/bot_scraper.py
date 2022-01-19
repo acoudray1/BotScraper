@@ -6,12 +6,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
-import parsel
-import time
+from .info import Info
 
 class BotScraper:
 
-    def __init__(self, PATH):
+    def __init__(self, PATH) -> None:
         self.driver = webdriver.Chrome(PATH)
         print("bot is alive")
 
@@ -85,6 +84,36 @@ class BotScraper:
             page_info.append({
             'header' : header, 'link' : link
             })
+            page_info.append(Info(header, link))
+
+        return page_info
+
+    ### function to scrape google's search page
+    ### @return page_info: []
+    def google_deep_scrape(self):
+        page_info = []
+        try:
+            # wait for search results to be fetched
+            WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.CLASS_NAME, "g"))
+            )
+        except Exception as e:
+            print(e)
+            self.driver.quit()
+        # contains the search results
+        search_results = self.driver.find_elements(By.CLASS_NAME, 'g')
+
+        for result in search_results:
+            element = result.find_element(By.CSS_SELECTOR, 'a') 
+            link = element.get_attribute('href')
+            header = result.find_element(By.CSS_SELECTOR, 'h3').text
+            text = result.find_elements(By.CSS_SELECTOR, 'span')
+            information = Info(header, link)
+            for i in range(len(text)):
+                if not(text[i].text.startswith('Tradui')):
+                    information.add_new_attribute("info_%s" %i, text[i].text)
+            
+            page_info.append(information.to_dict())
 
         return page_info
 
