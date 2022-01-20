@@ -32,18 +32,11 @@ class Info:
 
     ### renames attributes of the object
     def reorder_attributes(self):
-        print(self.__dict__)
         i = 0
         for att in dir(self):
             if att.startswith('info'):
                 self.__dict__['u_info%s'%i] = self.__dict__.pop(att)
                 i+=1
-
-        # for i in range(len(dir(self))):
-        #     att = dir(self)[i]
-        #     if att.startswith('info'):
-        #         self.__dict__['u_info%s'%i] = self.__dict__.pop(att)
-        print(self.__dict__)
 
     ### returns our object informations as a Dict
     ###@ return info: Dict
