@@ -17,13 +17,14 @@ bot.search_google(Consts.search_query, False)
 time.sleep(30)
 
 nb_pages = bot.google_search_number_of_pages()
+print(nb_pages)
 info_all = []
 info_all.extend(bot.google_deep_scrape())
 
 page_scrapped = 0
 last_url_scrapped = ''
 
-while page_scrapped < nb_pages - 1:
+while page_scrapped < 20:
     try:
         bot.click_button(By.LINK_TEXT, 'Suivant', 'Next')
         info_all.extend(bot.google_deep_scrape())
