@@ -27,7 +27,6 @@ class Info:
             if att.startswith('info'):
                 att_val = getattr(self, att)
                 if len(att_val.strip()) < 2:
-                    print(att_val)
                     delattr(self, att)
 
     ### renames attributes of the object

@@ -14,17 +14,16 @@ bot.auth_to_linkedin(Consts.linkedin_username, Consts.linkedin_password)
 
 bot.search_google(Consts.search_query, False)
 
-time.sleep(30)
+time.sleep(Consts.waiting_time)
 
-nb_pages = bot.google_search_number_of_pages()
-print(nb_pages)
+# nb_pages = bot.google_search_number_of_pages()
 info_all = []
 info_all.extend(bot.google_deep_scrape())
 
 page_scrapped = 0
 last_url_scrapped = ''
 
-while page_scrapped < 20:
+while page_scrapped < Consts.nb_pages - 1:
     try:
         bot.click_button(By.LINK_TEXT, 'Suivant', 'Next')
         info_all.extend(bot.google_deep_scrape())
@@ -43,7 +42,7 @@ while page_scrapped < 20:
 
         df = pd.DataFrame(info_all)
         df.to_csv('../out/' + 'tmp-' + str(page_scrapped) + Consts.file_name)
-        time.sleep(30)
+        time.sleep(Consts.waiting_time)
 
 df = pd.DataFrame(info_all)
 df.to_csv('../out/' + Consts.file_name)
