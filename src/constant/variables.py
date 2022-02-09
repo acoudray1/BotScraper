@@ -18,4 +18,4 @@ file_name = keyword_1.replace(' ', '_') + '-' + keyword_2.replace(' ', '_') + '_
 
 #linkedin ids
 linkedin_username = 'axelcoudray@outlook.com'
-linkedin_password = 'AX98yeti&'
+linkedin_password = '***'
