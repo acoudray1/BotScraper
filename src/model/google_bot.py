@@ -8,31 +8,16 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
 from .info import Info
 
-class BotScraper:
+class GoogleBot:
 
     def __init__(self, PATH) -> None:
         self.driver = webdriver.Chrome(PATH)
-        print("bot is alive")
-
-    ### this functions auth the bot to linkedIn
-    ### @param username: str
-    ### @param password: str
-    def auth_to_linkedin(self, username, password):
-        self.driver.get("https://www.linkedin.com")
-
-        l_u = self.driver.find_element(By.ID, 'session_key')
-        l_u.send_keys(username)
-
-        l_p = self.driver.find_element(By.ID, 'session_password')
-        l_p.send_keys(password) 
-
-        log_in_button = self.driver.find_element(By.CLASS_NAME, 'sign-in-form__submit-button') 
-        log_in_button.click()
+        print("google bot is alive")
 
     ### this function navigates to google and make a search
     ### @param search_query: str
     ### @param is_url: bool
-    def search_google(self, search_query, is_url):
+    def search(self, search_query, is_url):
         if is_url:
             self.driver.get(search_query)
         else:
@@ -51,7 +36,7 @@ class BotScraper:
 
     ### get the number of results and divide it by 10
     ### @return nb_pages: int
-    def google_search_number_of_pages(self):
+    def search_number_of_pages(self):
         el = self.driver.find_element(By.ID, 'result-stats').text
         
         number = ''
@@ -64,7 +49,7 @@ class BotScraper:
 
     ### function to scrape google's search page
     ### @return page_info: []
-    def google_scrape(self):
+    def search_page_scrape(self):
         page_info = []
         try:
             # wait for search results to be fetched
@@ -90,7 +75,7 @@ class BotScraper:
 
     ### function to scrape google's search page
     ### @return page_info: []
-    def google_deep_scrape(self):
+    def search_page_deep_scrape(self):
         page_info = []
         try:
             # wait for search results to be fetched
