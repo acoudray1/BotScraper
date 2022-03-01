@@ -9,24 +9,21 @@ import pandas as pd
 PATH = "../assets/drivers/chromedriver.exe"
 
 bot = GoogleBot(PATH)
-
-# bot.auth_to_linkedin(Consts.linkedin_username, Consts.linkedin_password)
-
 bot.search(Consts.search_query, False)
 
 time.sleep(Consts.waiting_time)
 
-#nb_pages = bot.google_search_number_of_pages()
+# nb_pages = bot.google_search_number_of_pages()
 info_all = []
-info_all.extend(bot.search_page_scrape())
+info_all.extend(bot.search_page_deep_scrape())
 
 page_scrapped = 0
 last_url_scrapped = ''
 
-while page_scrapped <  Consts.nb_pages - 1:
+while page_scrapped < Consts.nb_pages - 1:
     try:
         bot.click_button(By.LINK_TEXT, 'Suivant', 'Next')
-        info_all.extend(bot.search_page_scrape())
+        info_all.extend(bot.search_page_deep_scrape())
         page_scrapped += 1
         last_url_scrapped = bot.driver.current_url
     except Exception as e:
@@ -37,13 +34,11 @@ while page_scrapped <  Consts.nb_pages - 1:
         del bot
         
         bot = GoogleBot(PATH)
-        # bot.auth_to_linkedin(Consts.linkedin_username, Consts.linkedin_password)
-        bot.search_google(last_url_scrapped, True)
+        bot.search(last_url_scrapped, True)
 
         df = pd.DataFrame(info_all)
         df.to_csv('../out/' + 'tmp-' + str(page_scrapped) + Consts.file_name)
         time.sleep(Consts.waiting_time)
-
 
 df = pd.DataFrame(info_all)
 df.to_csv('../out/' + Consts.file_name)
