@@ -9,9 +9,6 @@ import pandas as pd
 PATH = "../assets/drivers/chromedriver.exe"
 
 bot = GoogleBot(PATH)
-
-# bot.auth_to_linkedin(Consts.linkedin_username, Consts.linkedin_password)
-
 bot.search(Consts.search_query, False)
 
 time.sleep(Consts.waiting_time)
@@ -37,7 +34,6 @@ while page_scrapped < Consts.nb_pages - 1:
         del bot
         
         bot = GoogleBot(PATH)
-        # bot.auth_to_linkedin(Consts.linkedin_username, Consts.linkedin_password)
         bot.search(last_url_scrapped, True)
 
         df = pd.DataFrame(info_all)

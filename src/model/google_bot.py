@@ -48,6 +48,7 @@ class GoogleBot:
         return int(nb_pages)
 
     ### function to scrape google's search page
+    ### gets only the title and the link
     ### @return page_info: []
     def search_page_scrape(self):
         page_info = []
@@ -74,6 +75,7 @@ class GoogleBot:
         return page_info
 
     ### function to scrape google's search page
+    ### gets more informations than simple scrape
     ### @return page_info: []
     def search_page_deep_scrape(self):
         page_info = []

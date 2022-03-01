@@ -16,7 +16,3 @@ search_query = 'site:linkedin.com/in/ AND "' + keyword_1 + '" AND "' + keyword_2
 date = str(datetime.now().year) + '-' + str(datetime.now().month) + '-' + str(datetime.now().day)
 #file_name = keyword_1.replace(' ', '_') + '-' + keyword_2.replace(' ', '_') + '_' + 'results' + '_' + date + '.csv'
 file_name = keyword_1.replace(' ', '_') + '-' + keyword_2.replace(' ', '_') + '-' + keyword_3.replace(' ', '_') + '_' + 'results' + '_' + date + '.csv'
-
-#linkedin ids
-linkedin_username = 'axelcoudray@outlook.com'
-linkedin_password = 'AX98yeti&'
